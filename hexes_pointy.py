@@ -77,3 +77,4 @@ def pil_hex():
 
 sys.stdout.write("hello from Python %s\n" % (sys.version,))
 pil_hex()
+print(" changes.")
