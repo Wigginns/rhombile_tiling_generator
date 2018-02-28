@@ -18,23 +18,23 @@ def hex_points_random3(n):
 def hex_points(x,y):
     #Given x and y of the origin, return the six points around the origin of RADIUS distance
     for i in range(6):
-        yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y #POINTYTOP    
+        yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y #POINTYTOP
 
 def rhombus_points1(x,y):
     #Given x and y of the origin, return rhombus points around the origin of RADIUS distance
     for i in range(1,4):
         yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y
-        
+
 def rhombus_points2(x,y):
     #Given x and y of the origin, return rhombus points around the origin of RADIUS distance
     for i in range(3, 6):
         yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y
-        
+
 def rhombus_points_random(x,y,n):
     corners = list(hex_points_random3(n))
     for i in corners:
         yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y
-        
+
 def hex_centres():
     for x in range(HEXES_WIDE):
         for y in range(HEXES_HIGH):
@@ -48,7 +48,7 @@ def color_generator():
         yield 0, 0, 255 # blue
         yield 255, 255, 0 # yellow
         yield 0, 255, 0 # green
-        yield 0, 255, 255 # cyan    
+        yield 0, 255, 255 # cyan
         yield 192,192,192 # Silver
         yield 128,128,128 #Gray
         yield 128,0,0 #Maroon
@@ -68,8 +68,8 @@ def pil_hex():
         # draw.polygon((list(rhombus_points1(x,y)) + [x,y]), fill=next(colors), outline=128)
         # draw.polygon((list(rhombus_points2(x,y)) + [x,y]), fill=next(colors), outline=128)
         draw.polygon((list(rhombus_points_random(x,y,n)) + [x,y]), fill=next(colors), outline=128)
-        draw.polygon((list(rhombus_points_random(x,y,n+2)) + [x,y]), fill=next(colors), outline=128)   
-        draw.polygon((list(rhombus_points_random(x,y,n+4)) + [x,y]), fill=next(colors), outline=128)  
+        draw.polygon((list(rhombus_points_random(x,y,n+2)) + [x,y]), fill=next(colors), outline=128)
+        draw.polygon((list(rhombus_points_random(x,y,n+4)) + [x,y]), fill=next(colors), outline=128)
         # draw.polygon(list(hex_points(x,y)), fill=next(colors))
         # draw.polygon((list(rhombus_points1(x,y)) + [x,y]), fill=next(colors))
         # draw.polygon((list(rhombus_points2(x,y)) + [x,y]), fill=next(colors))
