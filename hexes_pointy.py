@@ -6,13 +6,12 @@ from math import sin, cos, pi, sqrt, tan
 THETA = pi / 3.0 # Angle from one point to the next
 HEXES_HIGH = 15 # How many rows of hexes
 HEXES_WIDE = 24 # How many hexes in a row
-RADIUS = 60 # Size of a hex
+RADIUS = 100 # Size of a hex
 HEX_HEIGHT = RADIUS * 2
 HEX_WIDTH = sqrt(3.0)/2.0 * HEX_HEIGHT
-# IMAGE_WIDTH = int(HEX_WIDTH * (HEXES_WIDE-3))
-# IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH-5))
-IMAGE_WIDTH = int(1920)
-IMAGE_HEIGHT = int(1080)
+IMAGE_WIDTH = int(HEX_WIDTH * (HEXES_WIDE-3)) 
+IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH-5))
+
 
 def hex_points_random3(n):
     return n%6, (n+1)%6, (n+2)%6
@@ -81,4 +80,3 @@ def pil_hex():
 
 sys.stdout.write("hello from Python %s\n" % (sys.version,))
 pil_hex()
-print(" changes.")
