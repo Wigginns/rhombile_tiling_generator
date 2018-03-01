@@ -1,16 +1,16 @@
 #! python
 import sys, random
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from math import sin, cos, pi, sqrt, tan
 
 THETA = pi / 3.0 # Angle from one point to the next
-HEXES_HIGH = 15 # How many rows of hexes
-HEXES_WIDE = 24 # How many hexes in a row
-RADIUS = 100 # Size of a hex
+HEXES_HIGH = 10 # How many rows of hexes
+HEXES_WIDE = 10 # How many hexes in a row
+RADIUS = 60 # Size of a hex
 HEX_HEIGHT = RADIUS * 2
 HEX_WIDTH = sqrt(3.0)/2.0 * HEX_HEIGHT
-IMAGE_WIDTH = int(HEX_WIDTH * (HEXES_WIDE-3)) 
-IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH-5))
+IMAGE_WIDTH = int(HEX_WIDTH * (HEXES_WIDE)) 
+IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH))
 
 
 def hex_points_random3(n):
@@ -36,11 +36,15 @@ def rhombus_points_random(x,y,n):
     for i in corners:
         yield sin(THETA * i) * RADIUS + x, cos(THETA * i) * RADIUS + y
 
-def hex_centres():
-    for x in range(HEXES_WIDE):
-        for y in range(HEXES_HIGH):
-            yield (x * HEX_WIDTH + (0.5 * HEX_WIDTH * (y % 2))), ((y+1.25) * HEX_HEIGHT * 0.75)
+def hex_centers():
+    for x in range(HEXES_WIDE+2):
+        for y in range(HEXES_HIGH+4):
+            yield (x * HEX_WIDTH + (.5 * HEX_WIDTH * (y % 2))), ((y) * HEX_HEIGHT * 0.75)
 
+def hex_centers_grid():
+    for x in range(HEXES_WIDE+2):
+        for y in range(HEXES_HIGH+4):
+            yield x, y
 
 def color_generator():
     colors_blue = [ '#00FFFF',  '#00FFFF',	 '#E0FFFF',	 '#AFEEEE',	 '#7FFFD4',	 '#40E0D0',	 '#48D1CC',	 '#00CED1',	 '#5F9EA0',	 '#4682B4',	 
@@ -54,8 +58,11 @@ def color_generator():
     colors_purple = ['#E6E6FA', '#D8BFD8',  '#DDA0DD',  '#EE82EE',  '#DA70D6',  '#FF00FF',  '#FF00FF',  '#BA55D3',  '#9370DB',  '#8A2BE2',
                      '#9400D3', '#9932CC',  '#8B008B',  '#800080',  '#4B0082',  '#6A5ACD',  '#483D8B',  '#7B68EE',
     ]
-    colors_all = colors_blue +colors_green + colors_purple
-    colors = colors_all
+    colors_white = ['#FFFFFF',  '#FFFAFA',  '#F0FFF0',  '#F5FFFA',  '#F0FFFF',  '#F0F8FF',  '#F8F8FF',  '#F5F5F5',  '#FFF5EE',  '#F5F5DC',
+                    '#FDF5E6',  '#FFFAF0',  '#FFFFF0',  '#FAEBD7',  '#FAF0E6',  '#FFF0F5',  '#FFE4E1',
+    ]
+    colors_all = colors_blue + colors_green + colors_purple
+    colors = colors_white
     while True:
         random.shuffle(colors)    
         for color in colors:
@@ -64,18 +71,21 @@ def color_generator():
 def pil_hex():
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
     colors = color_generator()
+    coords = hex_centers_grid()
+    fnt =ImageFont.load_default().font
     draw = ImageDraw.Draw(image)
-    for x,y in hex_centres():
+    for x,y in hex_centers():
         #draw.polygon(list(hex_points(x,y)), fill=next(colors), outline=128)
         n = random.randint(0,5)
-        # draw.polygon((list(rhombus_points1(x,y)) + [x,y]), fill=next(colors), outline=128)
-        # draw.polygon((list(rhombus_points2(x,y)) + [x,y]), fill=next(colors), outline=128)
+        #n = 0
         draw.polygon((list(rhombus_points_random(x,y,n)) + [x,y]), fill=next(colors), outline=128)
         draw.polygon((list(rhombus_points_random(x,y,n+2)) + [x,y]), fill=next(colors), outline=128)
         draw.polygon((list(rhombus_points_random(x,y,n+4)) + [x,y]), fill=next(colors), outline=128)
-        # draw.polygon(list(hex_points(x,y)), fill=next(colors))
-        # draw.polygon((list(rhombus_points1(x,y)) + [x,y]), fill=next(colors))
-        # draw.polygon((list(rhombus_points2(x,y)) + [x,y]), fill=next(colors))
+        # draw.polygon(list(hex_points(x,y)), outline=128)
+        cc_x, cc_y = next(coords)
+        current_center = str(cc_x) + "." + str(cc_y)
+        draw.text((x-10,y), current_center, font = fnt, fill="#000000")
+    
     image.save('pil_hexes_pointy.png', 'PNG')
 
 sys.stdout.write("hello from Python %s\n" % (sys.version,))
