@@ -62,7 +62,10 @@ def gen_colormind():
 
         if not saved:
             with open('colormind.txt', 'w') as fp:
-                fp.write('\n'.join('({}, {}, {})'.format(c[0],c[1],c[2]) for c in colors))
+                # fp.write('\n'.join('({}, {}, {})'.format(c[0],c[1],c[2]) for c in colors))
+                fp.write('RGB({}, {}, {})'.format(*colors[n%3]))
+                fp.write('RGB({}, {}, {})'.format(*colors[(n+2)%3]))
+                fp.write('RGB({}, {}, {})'.format(*colors[(n+4)%3]))
             saved = True
         
         draw.polygon((list(rhombus_points_next3(x,y,n)) + [x,y]), fill=colors[n%3], outline=128)
