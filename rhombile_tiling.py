@@ -4,7 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 from hexagon_builder import rhombus_points_next3, hex_centers_grid, hex_centers, IMAGE_HEIGHT, IMAGE_WIDTH
 from color_generators import *
 
-def pil_hex():
+def gen_multicolor():
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
     colors = color_generator()
     coords = hex_centers_grid()
@@ -24,7 +24,7 @@ def pil_hex():
     image.save('megacolor.png', 'PNG')
 
 
-def pil_hex_tricolor():
+def gen_tricolor():
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
 
     coords = hex_centers_grid()
@@ -43,7 +43,7 @@ def pil_hex_tricolor():
 
     image.save('tricolor.png', 'PNG')
 
-def pil_hex_colormind():
+def gen_colormind():
     data = '{"model":"default"}'
     response = requests.post('http://colormind.io/api/', data=data)
 
@@ -69,6 +69,6 @@ def pil_hex_colormind():
 sys.stdout.write("hello from Python %s\n" % (sys.version,))
 
 
-pil_hex()
-pil_hex_tricolor()
-pil_hex_colormind()
+gen_multicolor()
+gen_tricolor()
+gen_colormind()
