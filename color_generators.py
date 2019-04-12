@@ -21,7 +21,7 @@ def color_generator():
     colors_white = ['#FFFFFF',  '#FFFAFA',  '#F0FFF0',  '#F5FFFA',  '#F0FFFF',  '#F0F8FF',  '#F8F8FF',  '#F5F5F5',  '#FFF5EE',  '#F5F5DC',
                     '#FDF5E6',  '#FFFAF0',  '#FFFFF0',  '#FAEBD7',  '#FAF0E6',  '#FFF0F5',  '#FFE4E1',
     ]
-    colors_all = colors_blue + colors_green + colors_purple
+    colors_all = colors_blue + colors_green + colors_purple +colors_white
     colors = colors_all
     while True:
         random.shuffle(colors)
