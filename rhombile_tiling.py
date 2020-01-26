@@ -1,5 +1,5 @@
 #! python
-import sys, random, requests, json
+import sys, random
 from PIL import Image, ImageDraw, ImageFont
 from hexagon_builder import rhombus_points_next3, hex_centers_grid, hex_centers, hex_points, IMAGE_HEIGHT, IMAGE_WIDTH
 from color_generators import *
@@ -8,11 +8,9 @@ OUTLINE_VALUE = 0
 def gen_multicolor(outline=False):
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
     colors = color_generator()
-    coords = hex_centers_grid()
-    fnt =ImageFont.load_default().font
+
     draw = ImageDraw.Draw(image)
     for x,y in hex_centers():
-        #draw.polygon(list(hex_points(x,y)), fill=next(colors), outline=128)
         n = random.randint(0,5)
         draw.polygon((list(rhombus_points_next3(x,y,n)) + [x,y]), fill=next(colors))
         draw.polygon((list(rhombus_points_next3(x,y,n+2)) + [x,y]), fill=next(colors))
@@ -20,10 +18,6 @@ def gen_multicolor(outline=False):
 
         if outline:
             draw_outlines(draw,x,y,n)
-        # draw.polygon(list(hex_points(x,y)), outline=128)
-        # cc_x, cc_y = next(coords)
-        # current_center = str(cc_x) + "." + str(cc_y)
-        # draw.text((x-10,y), current_center, font = fnt, fill="#000000")
 
     image.save('megacolor.png', 'PNG')
 
@@ -31,11 +25,8 @@ def gen_multicolor(outline=False):
 def gen_tricolor(outline=False):
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
 
-    coords = hex_centers_grid()
-    # fnt =ImageFont.load_default().font
     draw = ImageDraw.Draw(image)
     for x,y in hex_centers():
-        #draw.polygon(list(hex_points(x,y)), fill=next(colors), outline=128)
         n = random.randint(0,5)
         draw.polygon((list(rhombus_points_next3(x,y,n)) + [x,y]), fill=color_generator_n(n))
         draw.polygon((list(rhombus_points_next3(x,y,n+2)) + [x,y]), fill=color_generator_n(n+2))
@@ -43,10 +34,6 @@ def gen_tricolor(outline=False):
 
         if outline:
             draw_outlines(draw,x,y,n)
-        # draw.polygon(list(hex_points(x,y)), outline=255)
-        # cc_x, cc_y = next(coords)
-        # current_center = str(cc_x) + "." + str(cc_y)
-        # draw.text((x-10,y), current_center, font = fnt, fill="#000000")
 
     image.save('tricolor.png', 'PNG')
 
@@ -55,19 +42,12 @@ def gen_colormind(outline=False):
     if outline:
         img_filename += '_outline'
 
-    data = '{"model":"default"}'
-    response = requests.post('http://colormind.io/api/', data=data)
-
-    json_string = response.json() #convert to dict
-
-    colors = list()  #add colors from dict to list of tuples for use later
-    for rgb in json_string['result']:
-        colors.append(tuple(rgb))
-    random.shuffle(colors)
+    colors = get_colormind_colors()
 
     image = Image.new("RGBA", (IMAGE_WIDTH,IMAGE_HEIGHT), (0,0,0,0))
     saved = False
 
+    #start draw
     draw = ImageDraw.Draw(image)
     for x,y in hex_centers():
         n = random.randint(0,5)
@@ -88,7 +68,15 @@ def gen_colormind(outline=False):
         if outline:
             draw_outlines(draw,x,y,n)
     
+    #end draw
     image.save(img_filename+'.png', 'PNG')
+
+    crop_area = (1,1,1921,1081)
+    cropped = image.crop(crop_area) #left, upper, right, lower pixel
+    cropped.save(img_filename+'crop'+'.png', 'PNG')
+
+def draw_rhombile_hexes(draw, hex_x, hex_y, n):
+    return
 
 def draw_outlines(draw, hex_x, hex_y, n):
     draw.polygon((list(rhombus_points_next3(hex_x,hex_y,n)) + [hex_x,hex_y]), outline=OUTLINE_VALUE)
@@ -99,7 +87,7 @@ def draw_outlines(draw, hex_x, hex_y, n):
 print("Generating images...")
 
 
-gen_multicolor()
-gen_tricolor()
+# gen_multicolor()
+# gen_tricolor()
 gen_colormind()
 # gen_colormind()
