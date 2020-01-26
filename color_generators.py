@@ -1,4 +1,4 @@
-import random
+import random, requests
 
 #return 1 of 3 colors for specific rhombus orientations to create an illusion of shadows
 def color_generator_n(n):
@@ -27,3 +27,16 @@ def color_generator():
         random.shuffle(colors)
         for color in colors:
             yield color
+
+def get_colormind_colors():
+    data = '{"model":"default"}'
+    response = requests.post('http://colormind.io/api/', data=data)
+
+    json_string = response.json() #convert to dict
+
+    colors = list()  #add colors from dict to list of tuples for use later
+    for rgb in json_string['result']:
+        colors.append(tuple(rgb))
+    random.shuffle(colors)
+
+    return colors
