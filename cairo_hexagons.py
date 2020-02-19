@@ -1,12 +1,15 @@
 import cairocffi as cairo, sys, argparse, copy, math, random,cairosvg
 from hexagon_builder import rhombus_points_next3, hex_centers_grid, hex_centers, hex_points, IMAGE_HEIGHT, IMAGE_WIDTH
 from pprint import pprint
+from color_generators import get_colormind_for_cairo
 
 float_gen = lambda a, b: random.uniform(a, b)
 
-colors = []
-for i in range(15):
-    colors.append((float_gen(.4, .75), float_gen(.4, .75), float_gen(.4, .75)))
+# colors = []
+# for i in range(15):
+#     colors.append((float_gen(.4, .75), float_gen(.4, .75), float_gen(.4, .75)))
+
+colors = get_colormind_for_cairo()
 
 # ims = cairo.ImageSurface(cairo.FORMAT_ARGB32, IMAGE_WIDTH, IMAGE_HEIGHT)
 ims = cairo.SVGSurface("hexes.svg", IMAGE_WIDTH, IMAGE_HEIGHT)
@@ -20,7 +23,11 @@ def hexagon(x_orig, y_orig):
     hex = hex_points(x, y)
 
 def hex_polygon(points, fill):
-    ctx.set_source_rgba(random.choice(colors)[0], random.choice(colors)[1], random.choice(colors)[2], 5)
+    # ctx.set_source_rgba(random.choice(colors)[0], random.choice(colors)[1], random.choice(colors)[2], 5)
+    
+    # r,g,b = random.choice(colors[0:3])
+    r,g,b = fill
+    ctx.set_source_rgba(r,g,b, 5)
 
     for i in range(len(points)):
         ctx.line_to(points[i][0], points[i][1])
@@ -36,7 +43,7 @@ def main():
     ctx.rectangle(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
     ctx.fill()
 
-    ctx.set_line_width(1)
+    ctx.set_line_width(0)
 
     for x,y in hex_centers():
         n = random.randint(0,5)
@@ -50,7 +57,7 @@ def main():
         # if(times == 0):
         #     break
         
-    cairosvg.svg2png(url="./hexes.svg", write_to='./examples/hexes.png')
+    # cairosvg.svg2png(url="./hexes.svg", write_to='./examples/hexes.png')
    
 if __name__ == "__main__":
     main()

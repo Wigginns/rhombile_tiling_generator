@@ -28,11 +28,26 @@ def color_generator():
         for color in colors:
             yield color
 
+def get_colormind_for_cairo():
+    colors = get_colormind_colors()
+
+    colors2 = []
+
+    for color in colors:
+        colormod = tuple(color2/255.0 for color2 in color)
+        colors2.append(colormod)
+
+    print(colors2)
+    return colors2
+    
+
 def get_colormind_colors():
     data = '{"model":"default"}'
     response = requests.post('http://colormind.io/api/', data=data)
 
     json_string = response.json() #convert to dict
+
+    print(json_string)
 
     colors = list()  #add colors from dict to list of tuples for use later
     for rgb in json_string['result']:
