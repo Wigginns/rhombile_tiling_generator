@@ -5,7 +5,7 @@ def color_generator_n(n):
     colors_white = [ '#A9A9A9','#D3D3D3','#FAFAFA', ]
     return colors_white[n%3]
 
-#return color from whichever semi random colorsheme you choose
+#return color from whichever semi random colorscheme you choose
 def color_generator():
     colors_blue = [ '#00FFFF', '#E0FFFF', '#AFEEEE', '#7FFFD4', '#40E0D0', '#48D1CC',	 '#00CED1',	 '#5F9EA0',	 '#4682B4',
                     '#B0C4DE',	'#B0E0E6', '#ADD8E6', '#87CEEB', '#87CEFA', '#00BFFF', '#1E90FF',	 '#6495ED',	 '#7B68EE',	 '#4169E1',
@@ -29,15 +29,16 @@ def color_generator():
             yield color
 
 def get_colormind_for_cairo():
-    colors = get_colormind_colors()
+    colormind_colors = get_colormind_colors()
 
     colors2 = []
 
-    for color in colors:
-        colormod = tuple(color2/255.0 for color2 in color)
-        colors2.append(colormod)
+    #Set colors to RBG decimal values for consumption by cairo
+    for color in colormind_colors:
+        rgb_decimal_colors = tuple(color_dec/255.0 for color_dec in color)
+        colors2.append(rgb_decimal_colors)
 
-    print(colors2)
+    # print(colors2)
     return colors2
     
 
@@ -47,7 +48,7 @@ def get_colormind_colors():
 
     json_string = response.json() #convert to dict
 
-    print(json_string)
+    # print(json_string)
 
     colors = list()  #add colors from dict to list of tuples for use later
     for rgb in json_string['result']:
