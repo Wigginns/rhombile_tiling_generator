@@ -1,8 +1,8 @@
 from math import sin, cos, pi, sqrt, tan
 
 THETA = pi / 3.0 # Angle from one point to the next
-HEXES_HIGH = 60 # How many rows of hexes
-HEXES_WIDE = 75 # How many hexes in a row
+HEXES_HIGH = 45 # How many rows of hexes
+HEXES_WIDE = 55 # How many hexes in a row
 RADIUS = 60 # Size of a hex
 HEX_HEIGHT = RADIUS * 2
 HEX_WIDTH = sqrt(3.0)/2.0 * HEX_HEIGHT
