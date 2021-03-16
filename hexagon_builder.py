@@ -1,13 +1,13 @@
 from math import sin, cos, pi, sqrt, tan
 
 THETA = pi / 3.0 # Angle from one point to the next
-HEXES_HIGH = 90 # How many rows of hexes
-HEXES_WIDE = 90 # How many hexes in a row
-RADIUS = 30 # Size of a hex
+HEXES_HIGH = 45 # How many rows of hexes
+HEXES_WIDE = 55 # How many hexes in a row
+RADIUS = 60 # Size of a hex
 HEX_HEIGHT = RADIUS * 2
 HEX_WIDTH = sqrt(3.0)/2.0 * HEX_HEIGHT
 IMAGE_WIDTH = int(HEX_WIDTH * (HEXES_WIDE))
-IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH) * 0.85) #why is this too big?
+IMAGE_HEIGHT = int(HEX_HEIGHT * (HEXES_HIGH) * 0.6) #why is this too big?
 
 
 def hex_points_next3(n):
