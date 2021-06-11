@@ -44,7 +44,11 @@ def get_colormind_for_cairo():
 
 def get_colormind_colors():
     data = '{"model":"default"}'
-    response = requests.post('http://colormind.io/api/', data=data)
+    try:
+        response = requests.post('http://colormind.io/api/', data=data)
+    except requests.exceptions.RequestException as e:  # This is the correct syntax
+        print('colormind appears dead:', e)
+        return [(160, 0, 200), (0, 160, 255), (0, 210, 140), (230, 175, 45), (240, 0, 130)]
 
     json_string = response.json() #convert to dict
 

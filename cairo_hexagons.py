@@ -14,32 +14,36 @@ colors = get_colormind_for_cairo()
 # ims = cairo.ImageSurface(cairo.FORMAT_ARGB32, IMAGE_WIDTH, IMAGE_HEIGHT)
 ims = cairo.SVGSurface("hexes.svg", IMAGE_WIDTH, IMAGE_HEIGHT)
 ctx = cairo.Context(ims)
-print(IMAGE_WIDTH, IMAGE_HEIGHT)
 
-def hex_polygon(points, fill):
+#draw a polygon from a given list of points with a given fill color
+def draw_polygon(points, fill):
 
     r,g,b = fill
-    ctx.set_source_rgba(r,g,b, 5)
+    ctx.set_source_rgba(r,g,b)
 
     for i in range(len(points)):
         ctx.line_to(points[i][0], points[i][1])
 
     ctx.fill()
 
-def given_facing_color():
+def given_facing_color(n):
     return random.randint(0,100)%3
 
-def default_color():
-    return 0
+def default_color(n):
+    return n
+
+def block_color(n):
+    return n+1
     
 
 def draw_hexes(color_func=default_color):
+    n = 0
     for x,y in hex_centers():
-        n = color_func()
+        n = color_func(n)
 
-        hex_polygon((list(rhombus_points_next3(x,y,n)) + [(x,y)]), fill=colors[n%3])
-        hex_polygon((list(rhombus_points_next3(x,y,n+2)) + [(x,y)]), fill=colors[(n+2)%3])
-        hex_polygon((list(rhombus_points_next3(x,y,n+4)) + [(x,y)]), fill=colors[(n+4)%3])
+        draw_polygon((list(rhombus_points_next3(x,y,n)) + [(x,y)]), fill=colors[n%3])
+        draw_polygon((list(rhombus_points_next3(x,y,n+2)) + [(x,y)]), fill=colors[(n+2)%3])
+        draw_polygon((list(rhombus_points_next3(x,y,n+4)) + [(x,y)]), fill=colors[(n+4)%3])
 
 def main():
 
@@ -51,8 +55,9 @@ def main():
     ctx.rectangle(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
     ctx.fill()
 
+    # draw_hexes()
     # draw_hexes(given_facing_color)
-    draw_hexes()
+    draw_hexes(block_color)
  
     # cairosvg.svg2png(file_obj=open(r'C:\Users\Benjamin\github\rhombile_tiling_generator\hexes.svg',"rb"), 
     #     write_to=r'C:\Users\Benjamin\github\rhombile_tiling_generator\examples\hexes.png')
