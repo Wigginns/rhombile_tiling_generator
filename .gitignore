@@ -2,3 +2,6 @@ __pychache__/
 __pycache__
 *.svg
 *.png
+*cairo_draw*
+*.lock
+.vscode
