@@ -49,9 +49,7 @@ def draw_hexes(color_func=default_color):
 def main():
 
     # setup image and set background 
-    
     bg_selection = random.choice([3,4])
-    # ctx.set_source_rgb(0.9, 0.9, 0.9)
     ctx.set_source_rgb(colors[bg_selection][0],colors[bg_selection][1],colors[bg_selection][2])
     ctx.rectangle(0, 0, IMAGE_WIDTH, IMAGE_HEIGHT)
     ctx.fill()

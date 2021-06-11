@@ -3,5 +3,6 @@ __pycache__
 *.svg
 *.png
 *cairo_draw*
+hexes.svg
 *.lock
 .vscode
