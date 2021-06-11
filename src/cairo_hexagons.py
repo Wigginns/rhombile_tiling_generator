@@ -1,4 +1,5 @@
-import cairocffi as cairo, sys, argparse, copy, math, random, cairosvg
+import cairocffi as cairo
+import sys, argparse, copy, math, random
 from hexagon_builder import rhombus_points_next3, hex_centers_grid, hex_centers, hex_points, IMAGE_HEIGHT, IMAGE_WIDTH
 from pprint import pprint
 from color_generators import get_colormind_for_cairo
